@@ -2,9 +2,9 @@
 #include "Application.h"
 #include "ModuleSceneIntro.h"
 #include "Primitive.h"
-#include "PhysBody3D.h"
-#include "imGUI\imgui.h"
-#include "imGUI\imgui_impl_sdl_gl3.h"
+#include "ImGUI/imgui.h"
+#include "ImGUI/imconfig.h"
+#include "ImGUI/imgui_impl_sdl_gl3.h"
 #include "Glew\include\glew.h"
 
 #pragma comment( lib, "Glew/libx86/glew32.lib" )
