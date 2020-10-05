@@ -35,6 +35,7 @@ public:
 	~Application();
 
 	bool Init();
+	void RequestBrowser(const char* website_url);
 	update_status Update();
 	bool CleanUp();
 
