@@ -1,5 +1,8 @@
 #pragma once
 
+#include <string.h>
+#include <string>
+
 class Application;
 struct PhysBody3D;
 
@@ -7,6 +10,9 @@ class Module
 {
 private :
 	bool enabled;
+
+public:
+	std::string name;
 
 public:
 	Application* App;
@@ -49,4 +55,15 @@ public:
 
 	virtual void OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 	{}
+
+	// Save & load
+	virtual bool Save()
+	{
+		return(true);
+	}
+
+	virtual bool Load()
+	{
+		return(true);
+	}
 };

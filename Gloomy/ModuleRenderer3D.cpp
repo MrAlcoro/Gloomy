@@ -10,6 +10,7 @@
 
 ModuleRenderer3D::ModuleRenderer3D(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
+	name.assign("renderer");
 }
 
 // Destructor
@@ -97,7 +98,7 @@ bool ModuleRenderer3D::Init()
 	}
 
 	// Projection matrix for
-	OnResize(SCREEN_WIDTH, SCREEN_HEIGHT);
+	OnResize(App->window->wwidth, App->window->wheight);
 
 	return ret;
 }
@@ -149,4 +150,54 @@ void ModuleRenderer3D::OnResize(int width, int height)
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
+}
+
+// Save & load ----------------------------------------------------------------------
+bool ModuleRenderer3D::Save()
+{
+	if (App->config != NULL)
+	{
+		if (json_object_has_value(App->modules_object, name.c_str()) == false)
+		{
+			json_object_set_null(App->modules_object, name.c_str());
+			json_serialize_to_file_pretty(App->config, "config.json");
+		}
+
+		LOG("Saving module %s", name.c_str());
+	}
+	else
+	{
+		json_object_set_null(App->modules_object, name.c_str());
+
+		LOG("Saving module %s", name.c_str());
+	}
+
+
+	return(true);
+}
+
+bool ModuleRenderer3D::Load()
+{
+	bool ret = false;
+
+	if (App->config != NULL)
+	{
+		if (json_object_has_value(App->modules_object, name.c_str()) != false)
+		{
+			LOG("Loading module %s", name.c_str());
+			ret = true;
+		}
+		else
+		{
+			LOG("Could not find the node named %s inside the file config.json", name.c_str());
+			ret = false;
+		}
+	}
+	else
+	{
+		LOG("Document config.json not found.");
+		ret = false;
+	}
+
+	return ret;
 }

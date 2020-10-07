@@ -20,6 +20,10 @@ public:
 	void Move(const vec3 &Movement);
 	float* GetViewMatrix();
 
+	// Save & load
+	bool Save();
+	bool Load();
+
 private:
 
 	void CalculateViewMatrix();

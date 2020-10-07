@@ -10,6 +10,7 @@
 #include "ModuleRenderer3D.h"
 #include "ModuleCamera3D.h"
 #include "ModuleImGUI.h"
+#include "Parson/parson.h"
 
 using namespace std;
 
@@ -22,6 +23,9 @@ public:
 	ModuleRenderer3D* renderer3D;
 	ModuleCamera3D* camera;
 	ModuleImGUI* imgui;
+
+	JSON_Value* config;
+	JSON_Object* modules_object;
 
 private:
 
@@ -38,6 +42,12 @@ public:
 	void RequestBrowser(const char* website_url);
 	update_status Update();
 	bool CleanUp();
+
+	// Call SaveGame -------------------------------------
+	void CallSave();
+
+	// Call LoadGame -------------------------------------
+	void CallLoad();
 
 private:
 

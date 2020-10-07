@@ -62,6 +62,10 @@ public:
 
 	bool Quit();
 
+	// Save & load
+	bool Save();
+	bool Load();
+
 private:
 	KEY_STATE* keyboard;
 	KEY_STATE mouse_buttons[MAX_MOUSE_BUTTONS];
@@ -72,6 +76,8 @@ private:
 	int mouse_y_motion;
 	bool quit_engine = false;
 	//int mouse_z_motion;
+
+	JSON_Object* input_object;
 };
 
 #endif

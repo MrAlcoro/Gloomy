@@ -21,6 +21,10 @@ public:
 
 	void OnResize(int width, int height);
 
+	// Save & load
+	bool Save();
+	bool Load();
+
 public:
 
 	Light lights[MAX_LIGHTS];

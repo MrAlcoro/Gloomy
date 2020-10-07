@@ -19,6 +19,9 @@
     <Filter Include="Sources\Tools\ImGui">
       <UniqueIdentifier>{7d157a0d-fb18-40df-b054-88b378e8c21a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\Tools\Parson">
+      <UniqueIdentifier>{457a0270-5dc0-405f-ae14-0f7cd2cabaef}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -71,6 +74,9 @@
     </ClInclude>
     <ClInclude Include="ModuleImGUI.h">
       <Filter>Sources\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Parson\parson.h">
+      <Filter>Sources\Tools\Parson</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -127,6 +133,9 @@
     </ClCompile>
     <ClCompile Include="ModuleImGUI.cpp">
       <Filter>Sources\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Parson\parson.c">
+      <Filter>Sources\Tools\Parson</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
