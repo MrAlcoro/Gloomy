@@ -1,5 +1,7 @@
 
+#include "Glew\include\glew.h"
 #include "Globals.h"
+#include "SDL\include\SDL_opengl.h"
 #include <gl/GL.h>
 #include <gl/GLU.h>
 #include "Primitive.h"
@@ -152,6 +154,73 @@ void Cube::InnerRender() const
 	glVertex3f(-sx, -sy,  sz);
 
 	glEnd();
+}
+
+void Primitive::DirectModeCube() const
+{
+	glBegin(GL_TRIANGLES);
+
+	glVertex3f(0.f, 0.f, 0.f); // 0
+	glVertex3f(0.f, 1.f, 0.f); // Y
+	glVertex3f(1.f, 0.f, 0.f); // X
+
+	glVertex3f(1.f, 0.f, 0.f); // X
+	glVertex3f(0.f, 1.f, 0.f); // Y
+	glVertex3f(1.f, 1.f, 0.f); // 0
+
+	glVertex3f(0.f, 0.f, 1.f); // Z
+	glVertex3f(0.f, 1.f, 0.f); // Y
+	glVertex3f(0.f, 0.f, 0.f); // 0	
+
+	glVertex3f(0.f, 1.f, 1.f); // 0	
+	glVertex3f(0.f, 1.f, 0.f); // Y
+	glVertex3f(0.f, 0.f, 1.f); // Z	
+
+	glVertex3f(1.f, 0.f, 0.f); // X
+	glVertex3f(1.f, 1.f, 1.f); // Y
+	glVertex3f(1.f, 0.f, 1.f); // 0	
+
+	glVertex3f(1.f, 1.f, 0.f); // 0	
+	glVertex3f(1.f, 1.f, 1.f); // Y
+	glVertex3f(1.f, 0.f, 0.f); // X
+
+	glVertex3f(0.f, 1.f, 1.f); // 0	
+	glVertex3f(0.f, 0.f, 1.f); // Z
+	glVertex3f(1.f, 1.f, 1.f); // Y
+
+	glVertex3f(1.f, 0.f, 1.f); // Y
+	glVertex3f(1.f, 1.f, 1.f); // 0
+	glVertex3f(0.f, 0.f, 1.f); // Z	
+
+	// Top
+	glVertex3f(0.f, 1.f, 0.f); // Y
+	glVertex3f(1.f, 1.f, 1.f); // 0
+	glVertex3f(1.f, 1.f, 0.f); // X
+
+	glVertex3f(0.f, 1.f, 1.f); // 0
+	glVertex3f(1.f, 1.f, 1.f); // X
+	glVertex3f(0.f, 1.f, 0.f); // Y
+
+	// Bottom
+	glVertex3f(0.f, 0.f, 0.f); // Y
+	glVertex3f(1.f, 0.f, 0.f); // X
+	glVertex3f(1.f, 0.f, 1.f); // 0
+
+	glVertex3f(0.f, 0.f, 1.f); // 0
+	glVertex3f(0.f, 0.f, 0.f); // Y
+	glVertex3f(1.f, 0.f, 1.f); // X
+
+	glEnd();
+}
+
+void Primitive::VertexArraysCube() const
+{
+
+}
+
+void Primitive::IndicesCube() const
+{
+
 }
 
 // SPHERE ============================================

@@ -1,4 +1,5 @@
 #include "Application.h"
+#include <vector>
 #include "ModuleImGUI.h"
 #include "Glew\include\glew.h"
 #include "ImGUI/imgui_impl_sdl_gl3.h"
@@ -40,6 +41,188 @@ update_status ModuleImGUI::Update(float dt)
 	static bool show_about_window = false;
 	static bool show_engine_configuration = false;
 	static bool quit = false;
+	static bool direct_mode_cube = false;
+	static bool vertex_array_cube = false;
+	static bool indices_cube = false;
+
+
+	if (direct_mode_cube)
+	{
+		glBegin(GL_TRIANGLES);
+
+		glVertex3f(0.f, 0.f, 0.f); // 0
+		glVertex3f(0.f, 1.f, 0.f); // Y
+		glVertex3f(1.f, 0.f, 0.f); // X
+
+		glVertex3f(1.f, 0.f, 0.f); // X
+		glVertex3f(0.f, 1.f, 0.f); // Y
+		glVertex3f(1.f, 1.f, 0.f); // 0
+
+		glVertex3f(0.f, 0.f, 1.f); // Z
+		glVertex3f(0.f, 1.f, 0.f); // Y
+		glVertex3f(0.f, 0.f, 0.f); // 0	
+
+		glVertex3f(0.f, 1.f, 1.f); // 0	
+		glVertex3f(0.f, 1.f, 0.f); // Y
+		glVertex3f(0.f, 0.f, 1.f); // Z	
+
+		glVertex3f(1.f, 0.f, 0.f); // X
+		glVertex3f(1.f, 1.f, 1.f); // Y
+		glVertex3f(1.f, 0.f, 1.f); // 0	
+
+		glVertex3f(1.f, 1.f, 0.f); // 0	
+		glVertex3f(1.f, 1.f, 1.f); // Y
+		glVertex3f(1.f, 0.f, 0.f); // X
+
+		glVertex3f(0.f, 1.f, 1.f); // 0	
+		glVertex3f(0.f, 0.f, 1.f); // Z
+		glVertex3f(1.f, 1.f, 1.f); // Y
+
+		glVertex3f(1.f, 0.f, 1.f); // Y
+		glVertex3f(1.f, 1.f, 1.f); // 0
+		glVertex3f(0.f, 0.f, 1.f); // Z	
+
+		// Top
+		glVertex3f(0.f, 1.f, 0.f); // Y
+		glVertex3f(1.f, 1.f, 1.f); // 0
+		glVertex3f(1.f, 1.f, 0.f); // X
+
+		glVertex3f(0.f, 1.f, 1.f); // 0
+		glVertex3f(1.f, 1.f, 1.f); // X
+		glVertex3f(0.f, 1.f, 0.f); // Y
+
+		// Bottom
+		glVertex3f(0.f, 0.f, 0.f); // Y
+		glVertex3f(1.f, 0.f, 0.f); // X
+		glVertex3f(1.f, 0.f, 1.f); // 0
+
+		glVertex3f(0.f, 0.f, 1.f); // 0
+		glVertex3f(0.f, 0.f, 0.f); // Y
+		glVertex3f(1.f, 0.f, 1.f); // X
+
+		glEnd();
+	}
+
+	if (vertex_array_cube)
+	{
+		GLuint VertexArrayID;
+		glGenVertexArrays(1, &VertexArrayID);
+		glBindVertexArray(VertexArrayID);
+
+		static const GLfloat g_vertex_buffer_data[] = {
+			-1.0f,-1.0f,-1.0f,
+			-1.0f,-1.0f, 1.0f,
+			-1.0f, 1.0f, 1.0f,
+			1.0f, 1.0f,-1.0f,
+			-1.0f,-1.0f,-1.0f,
+			-1.0f, 1.0f,-1.0f,
+			1.0f,-1.0f, 1.0f,
+			-1.0f,-1.0f,-1.0f,
+			1.0f,-1.0f,-1.0f,
+			1.0f, 1.0f,-1.0f,
+			1.0f,-1.0f,-1.0f,
+			-1.0f,-1.0f,-1.0f,
+			-1.0f,-1.0f,-1.0f,
+			-1.0f, 1.0f, 1.0f,
+			-1.0f, 1.0f,-1.0f,
+			1.0f,-1.0f, 1.0f,
+			-1.0f,-1.0f, 1.0f,
+			-1.0f,-1.0f,-1.0f,
+			-1.0f, 1.0f, 1.0f,
+			-1.0f,-1.0f, 1.0f,
+			1.0f,-1.0f, 1.0f,
+			1.0f, 1.0f, 1.0f,
+			1.0f,-1.0f,-1.0f,
+			1.0f, 1.0f,-1.0f,
+			1.0f,-1.0f,-1.0f,
+			1.0f, 1.0f, 1.0f,
+			1.0f,-1.0f, 1.0f,
+			1.0f, 1.0f, 1.0f,
+			1.0f, 1.0f,-1.0f,
+			-1.0f, 1.0f,-1.0f,
+			1.0f, 1.0f, 1.0f,
+			-1.0f, 1.0f,-1.0f,
+			-1.0f, 1.0f, 1.0f,
+			1.0f, 1.0f, 1.0f,
+			-1.0f, 1.0f, 1.0f,
+			1.0f,-1.0f, 1.0f
+		};
+
+		GLuint vertexbuffer;
+		glGenBuffers(1, &vertexbuffer);
+		glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
+		glEnableVertexAttribArray(0);
+		glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+		glVertexAttribPointer(
+			0,
+			3,
+			GL_FLOAT,
+			GL_FALSE,
+			0,
+			(void*)0
+		);
+	}
+
+	if (indices_cube)
+	{
+		std::vector<GLfloat> vertices;
+		std::vector<GLfloat> indices;
+		
+		vertices = { -1.0f,-1.0f,-1.0f,
+		-1.0f,-1.0f, 1.0f,
+		-1.0f, 1.0f, 1.0f,
+		1.0f, 1.0f,-1.0f,
+		-1.0f,-1.0f,-1.0f,
+		-1.0f, 1.0f,-1.0f,
+		1.0f,-1.0f, 1.0f,
+		-1.0f,-1.0f,-1.0f,
+		1.0f,-1.0f,-1.0f,
+		1.0f, 1.0f,-1.0f,
+		1.0f,-1.0f,-1.0f,
+		-1.0f,-1.0f,-1.0f,
+		-1.0f,-1.0f,-1.0f,
+		-1.0f, 1.0f, 1.0f,
+		-1.0f, 1.0f,-1.0f,
+		1.0f,-1.0f, 1.0f,
+		-1.0f,-1.0f, 1.0f,
+		-1.0f,-1.0f,-1.0f,
+		-1.0f, 1.0f, 1.0f,
+		-1.0f,-1.0f, 1.0f,
+		1.0f,-1.0f, 1.0f,
+		1.0f, 1.0f, 1.0f,
+		1.0f,-1.0f,-1.0f,
+		1.0f, 1.0f,-1.0f,
+		1.0f,-1.0f,-1.0f,
+		1.0f, 1.0f, 1.0f,
+		1.0f,-1.0f, 1.0f,
+		1.0f, 1.0f, 1.0f,
+		1.0f, 1.0f,-1.0f,
+		-1.0f, 1.0f,-1.0f,
+		1.0f, 1.0f, 1.0f,
+		-1.0f, 1.0f,-1.0f,
+		-1.0f, 1.0f, 1.0f,
+		1.0f, 1.0f, 1.0f,
+		-1.0f, 1.0f, 1.0f,
+		1.0f,-1.0f, 1.0f };
+
+		indices = { 0, 1, 2,   2, 3, 0,
+			4, 5, 6,   6, 7, 4,
+			8, 9,10,  10,11, 8,
+			12,13,14,  14,15,12,
+			16,17,18,  18,19,16,
+			20,21,22,  22,23,20 };
+
+		glEnableClientState(GL_VERTEX_ARRAY);
+		glVertexPointer(3, GL_FLOAT, 0, &vertices[0]);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indices[0]);
+		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_BYTE, &indices[0]);
+		glDrawArrays(GL_TRIANGLES, 0, 12 * 3);
+
+		glDisableVertexAttribArray(0);
+
+		glDisableClientState(0);
+	}
 
 	if (show_test_window)
 	{
@@ -52,7 +235,7 @@ update_status ModuleImGUI::Update(float dt)
 
 		if (ImGui::CollapsingHeader("Application"))
 		{
-			ImGui::TextWrapped("Engine name: Twinsen");
+			ImGui::TextWrapped("Engine name: Gloomy");
 
 			ImGui::Separator();
 
@@ -224,6 +407,20 @@ update_status ModuleImGUI::Update(float dt)
 			{
 				App->input->Quit();
 			}
+			ImGui::EndMenu();
+		}
+
+		if (ImGui::BeginMenu("Shapes"))
+		{		
+			ImGui::Text("Cubes");
+			ImGui::Separator();
+
+			ImGui::Checkbox("Direct mode", &direct_mode_cube);
+
+			ImGui::Checkbox("Array of vertices", &vertex_array_cube);
+
+			ImGui::Checkbox("Indices", &indices_cube);
+			
 			ImGui::EndMenu();
 		}
 

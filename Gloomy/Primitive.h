@@ -25,6 +25,9 @@ public:
 	void			SetRotation(float angle, const vec3 &u);
 	void			Scale(float x, float y, float z);
 	PrimitiveTypes	GetType() const;
+	void            DirectModeCube() const;
+	void            VertexArraysCube() const;
+	void            IndicesCube() const;
 
 public:
 	
