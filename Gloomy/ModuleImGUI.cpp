@@ -424,6 +424,16 @@ update_status ModuleImGUI::Update(float dt)
 			ImGui::EndMenu();
 		}
 
+		if (ImGui::BeginMenu("Rendering"))
+		{
+			if (ImGui::Checkbox("Wireframe", &App->renderer3D->enable_wireframe))
+			{
+				(App->renderer3D->enable_wireframe) ? glPolygonMode(GL_FRONT_AND_BACK, GL_LINE) : glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+			}
+
+			ImGui::EndMenu();
+		}
+
 		if (ImGui::BeginMenu("Help"))
 		{
 			ImGui::Checkbox("Show test window", &show_test_window);
@@ -450,6 +460,8 @@ update_status ModuleImGUI::Update(float dt)
 
 		ImGui::EndMainMenuBar();
 	}
+
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
 	ImGui::Render();
 
