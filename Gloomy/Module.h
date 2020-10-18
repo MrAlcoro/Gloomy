@@ -55,15 +55,4 @@ public:
 
 	virtual void OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 	{}
-
-	// Save & load
-	virtual bool Save()
-	{
-		return(true);
-	}
-
-	virtual bool Load()
-	{
-		return(true);
-	}
 };

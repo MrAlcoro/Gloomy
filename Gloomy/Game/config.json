@@ -4,8 +4,8 @@
     "imgui": {},
     "renderer": {},
     "window": {
-        "title": "Twinsen",
-        "width": 1280,
+        "title": "Gloomy",
+        "width": 1080,
         "height": 1024,
         "scale": 1,
         "fullscreen": false,

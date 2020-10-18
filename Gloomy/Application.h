@@ -43,12 +43,6 @@ public:
 	update_status Update();
 	bool CleanUp();
 
-	// Call SaveGame -------------------------------------
-	void CallSave();
-
-	// Call LoadGame -------------------------------------
-	void CallLoad();
-
 private:
 
 	void AddModule(Module* mod);

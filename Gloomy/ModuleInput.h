@@ -62,10 +62,6 @@ public:
 
 	bool Quit();
 
-	// Save & load
-	bool Save();
-	bool Load();
-
 private:
 	KEY_STATE* keyboard;
 	KEY_STATE mouse_buttons[MAX_MOUSE_BUTTONS];

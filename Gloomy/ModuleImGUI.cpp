@@ -392,17 +392,6 @@ update_status ModuleImGUI::Update(float dt)
 
 			ImGui::Separator();
 
-			if (ImGui::MenuItem("Save engine configuration"))
-			{
-				App->CallSave();
-			}
-			if (ImGui::MenuItem("Load engine configuration"))
-			{
-				App->CallLoad();
-			}
-
-			ImGui::Separator();
-
 			if (ImGui::MenuItem("Exit"))
 			{
 				App->input->Quit();
@@ -475,54 +464,4 @@ bool ModuleImGUI::CleanUp()
 	ImGui_ImplSdlGL3_Shutdown();
 
 	return true;
-}
-
-// Save & load ----------------------------------------------------------------------
-bool ModuleImGUI::Save()
-{
-	if (App->config != NULL)
-	{
-		if (json_object_has_value(App->modules_object, name.c_str()) == false)
-		{
-			json_object_set_null(App->modules_object, name.c_str());
-			json_serialize_to_file_pretty(App->config, "config.json");
-		}
-
-		LOG("Saving module %s", name.c_str());
-	}
-	else
-	{
-		json_object_set_null(App->modules_object, name.c_str());
-
-		LOG("Saving module %s", name.c_str());
-	}
-
-
-	return(true);
-}
-
-bool ModuleImGUI::Load()
-{
-	bool ret = false;
-
-	if (App->config != NULL)
-	{
-		if (json_object_has_value(App->modules_object, name.c_str()) != false)
-		{
-			LOG("Loading module %s", name.c_str());
-			ret = true;
-		}
-		else
-		{
-			LOG("Could not find the node named %s inside the file config.json", name.c_str());
-			ret = false;
-		}
-	}
-	else
-	{
-		LOG("Document config.json not found.");
-		ret = false;
-	}
-
-	return ret;
 }

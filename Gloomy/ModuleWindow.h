@@ -20,10 +20,6 @@ public:
 	void SetWindowSize(int w, int h);
 	void SetWindowFullDesktop();
 
-	// Save & load
-	bool Save();
-	bool Load();
-
 	const char* GetTitle();
 
 	ModuleWindow(Application* app, bool start_enabled = true);

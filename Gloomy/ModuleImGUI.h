@@ -24,10 +24,6 @@ public:
 	update_status PreUpdate(float dt);
 	update_status Update(float dt);
 	bool CleanUp();
-
-	// Save & load
-	bool Save();
-	bool Load();
 };
 
 #endif
