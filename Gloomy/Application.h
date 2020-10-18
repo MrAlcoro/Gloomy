@@ -10,6 +10,7 @@
 #include "ModuleRenderer3D.h"
 #include "ModuleCamera3D.h"
 #include "ModuleImGUI.h"
+#include "ModuleFBXLoader.h"
 #include "Parson/parson.h"
 
 using namespace std;
@@ -22,6 +23,7 @@ public:
 	ModuleSceneIntro* scene_intro;
 	ModuleRenderer3D* renderer3D;
 	ModuleCamera3D* camera;
+	ModuleFBXLoader* fbx_loader;
 	ModuleImGUI* imgui;
 
 	JSON_Value* config;

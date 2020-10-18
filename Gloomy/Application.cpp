@@ -8,6 +8,7 @@ Application::Application()
 	renderer3D = new ModuleRenderer3D(this);
 	camera = new ModuleCamera3D(this);
 	imgui = new ModuleImGUI(this);
+	fbx_loader = new ModuleFBXLoader(this);
 
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order
@@ -20,10 +21,12 @@ Application::Application()
 	
 	// Scenes
 	AddModule(scene_intro);
+	AddModule(fbx_loader);
+	AddModule(imgui);
 	
 	// Renderer last!
 	AddModule(renderer3D);
-	AddModule(imgui);
+	
 }
 
 Application::~Application()

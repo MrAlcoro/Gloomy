@@ -6,7 +6,7 @@
     "window": {
         "title": "Gloomy",
         "width": 1080,
-        "height": 1024,
+        "height": 920,
         "scale": 1,
         "fullscreen": false,
         "resizable": true,

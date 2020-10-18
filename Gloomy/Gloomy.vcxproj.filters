@@ -78,6 +78,9 @@
     <ClInclude Include="Parson\parson.h">
       <Filter>Sources\Tools\Parson</Filter>
     </ClInclude>
+    <ClInclude Include="ModuleFBXLoader.h">
+      <Filter>Sources\Modules</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleCamera3D.cpp">
@@ -136,6 +139,9 @@
     </ClCompile>
     <ClCompile Include="Parson\parson.c">
       <Filter>Sources\Tools\Parson</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleFBXLoader.cpp">
+      <Filter>Sources\Modules</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -31,7 +31,7 @@ bool ModuleImGUI::Start()
 update_status ModuleImGUI::PreUpdate(float dt)
 {
 	ImGui_ImplSdlGL3_NewFrame(App->window->window);
-	return(UPDATE_CONTINUE);
+	return UPDATE_CONTINUE;
 }
 
 // ------------------------------------------------------------------
@@ -217,20 +217,6 @@ update_status ModuleImGUI::Update(float dt)
 			ImGui::EndMenu();
 		}
 
-		if (ImGui::BeginMenu("Shapes"))
-		{		
-			ImGui::Text("Cubes");
-			ImGui::Separator();
-
-			ImGui::Checkbox("Direct mode", &direct_mode_cube);
-
-			ImGui::Checkbox("Array of vertices", &vertex_array_cube);
-
-			ImGui::Checkbox("Indices", &indices_cube);
-			
-			ImGui::EndMenu();
-		}
-
 		if (ImGui::BeginMenu("Rendering"))
 		{
 			if (ImGui::Checkbox("Wireframe", &App->renderer3D->enable_wireframe))
@@ -272,7 +258,7 @@ update_status ModuleImGUI::Update(float dt)
 
 	ImGui::Render();
 
-	return (UPDATE_CONTINUE);
+	return UPDATE_CONTINUE;
 }
 
 // ------------------------------------------------------------------
