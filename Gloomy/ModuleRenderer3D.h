@@ -8,6 +8,8 @@
 
 #define MAX_LIGHTS 8
 
+struct ModelConfig;
+
 class ModuleRenderer3D : public Module
 {
 public:
@@ -20,6 +22,7 @@ public:
 	bool CleanUp();
 
 	void OnResize(int width, int height);
+	bool DrawMeshes(ModelConfig mesh);
 
 public:
 
