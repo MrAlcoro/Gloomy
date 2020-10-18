@@ -22,10 +22,12 @@ Application::Application()
 	// Scenes
 	AddModule(scene_intro);
 	AddModule(fbx_loader);
-	AddModule(imgui);
 	
 	// Renderer last!
 	AddModule(renderer3D);
+
+	// Interface
+	AddModule(imgui);
 	
 }
 

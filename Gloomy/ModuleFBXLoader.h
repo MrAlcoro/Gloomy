@@ -2,6 +2,7 @@
 #define __MODULEFBXLOADER_H__
 
 #include "Module.h"
+#include "Glew/include/glew.h"
 #include <vector>
 #include <string>
 

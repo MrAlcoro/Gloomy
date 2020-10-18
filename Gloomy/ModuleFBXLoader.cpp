@@ -4,14 +4,6 @@
 #include "Assimp/include/scene.h"
 #include "Assimp/include/postprocess.h"
 #include "Assimp/include/cfileio.h"
-#include "Glew/include/glew.h"
-#include "SDL\include\SDL_opengl.h"
-#include <gl/GL.h>
-#include <gl/GLU.h>
-
-#pragma comment( lib, "Glew/libx86/glew32.lib" )
-#pragma comment (lib, "glu32.lib")    /* link OpenGL Utility lib     */
-#pragma comment (lib, "opengl32.lib") /* link Microsoft OpenGL lib   */
 
 #pragma comment (lib, "Assimp/libx86/assimp.lib")
 
@@ -28,6 +20,8 @@ ModuleFBXLoader::~ModuleFBXLoader()
 bool ModuleFBXLoader::Start()
 {
 	bool ret = true;
+
+	glewInit();
 
 	struct aiLogStream stream;
 	stream = aiGetPredefinedLogStream(aiDefaultLogStream_DEBUGGER, nullptr);
@@ -74,11 +68,11 @@ bool ModuleFBXLoader::LoadFBX(string file_name)
 // -----------------------------------------------------------------
 void ModuleFBXLoader::LoadModel(const aiScene* scene, aiNode* node)
 {
-	if (node->mNumMeshes >= 0)
+	for (int i = 0; i < node->mNumChildren; ++i)
 	{
-		for (int i = 0; i < node->mNumMeshes; ++i)
+		for (int j = 0; j < node->mChildren[i]->mNumMeshes; j++)
 		{
-			aiMesh* current_mesh = scene->mMeshes[node->mMeshes[i]];
+			aiMesh* current_mesh = scene->mMeshes[node->mChildren[i]->mMeshes[j]];
 			data = ModelConfig();
 
 			data.num_vertices = current_mesh->mNumVertices;
@@ -89,7 +83,6 @@ void ModuleFBXLoader::LoadModel(const aiScene* scene, aiNode* node)
 			glGenBuffers(1, (GLuint*)&(data.id_vertices));
 			glBindBuffer(GL_ARRAY_BUFFER, data.id_vertices);
 			glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 3 * data.num_vertices, data.vertices, GL_STATIC_DRAW);
-
 			LOG("Mesh with %d vertices.", data.num_vertices);
 
 			if (current_mesh->HasFaces())
@@ -97,38 +90,30 @@ void ModuleFBXLoader::LoadModel(const aiScene* scene, aiNode* node)
 				data.num_indices = current_mesh->mNumFaces * 3;
 				data.indices = new uint[data.num_indices];
 
-				for (uint j = 0; j < current_mesh->mNumFaces; ++j)
+				for (uint k = 0; k < current_mesh->mNumFaces; ++k)
 				{
-					if (current_mesh->mFaces[j].mNumIndices != 3)
+					if (current_mesh->mFaces[k].mNumIndices != 3)
 					{
-						LOG("WARNING: geometry face with != 3 index!");
+						LOG("WARNING: geometry face with != 3 indices!");
 					}
 					else
 					{
-						memcpy(&data.indices[j * 3], current_mesh->mFaces[j].mIndices, 3 * sizeof(float));
+						memcpy(&data.indices[k * 3], current_mesh->mFaces[k].mIndices, 3 * sizeof(float));
 					}
 				}
 
 				glGenBuffers(1, (GLuint*)&(data.id_indices));
 				glBindBuffer(GL_ARRAY_BUFFER, data.id_indices);
-				glBufferData(GL_ARRAY_BUFFER, sizeof(float) * data.num_indices, data.indices, GL_STATIC_DRAW);
+				glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 3 * data.num_indices, data.indices, GL_STATIC_DRAW);
 			}
 
 			meshes.push_back(data);
-
 			LOG("Loaded mesh with %i vertices.", data.num_vertices);
 			LOG("Loaded mesh with %i indices.", data.num_indices);
 			LOG("Loaded mesh with %i triangles.", data.num_vertices / 3);
 		}
-	}
-	else
-	{
-		LOG("This node has no meshes.");
-	}
 
-	for (int k = 0; k < node->mNumChildren; k++)
-	{
-		LoadModel(scene, node->mChildren[k]);
+		LoadModel(scene, node->mChildren[i]);
 	}
 }
 
