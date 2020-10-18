@@ -3,6 +3,7 @@
 
 #include "Module.h"
 #include <vector>
+#include <string>
 
 using namespace std;
 
@@ -29,13 +30,11 @@ public:
 	bool Start();
 	update_status Update(float dt);
 	bool CleanUp();
-	bool LoadFBX(const char* file_name);
-	void LoadModel(const aiScene* scene, aiNode* node, const char* path);
+	bool LoadFBX(string file_name);
+	void LoadModel(const aiScene* scene, aiNode* node);
 
 public:
-	vector<ModelConfig> meshes;
-
-private: 
 	ModelConfig data;
+	vector<ModelConfig> meshes;
 };
 #endif
