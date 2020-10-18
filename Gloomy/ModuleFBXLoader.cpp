@@ -21,13 +21,17 @@ bool ModuleFBXLoader::Start()
 {
 	bool ret = true;
 
+	struct aiLogStream stream;
+	stream = aiGetPredefinedLogStream(aiDefaultLogStream_DEBUGGER, nullptr);
+	aiAttachLogStream(&stream);
+
 	return ret;
 }
 
 // -----------------------------------------------------------------
 bool ModuleFBXLoader::CleanUp()
 {
-
+	aiDetachAllLogStreams();
 
 	return true;
 }
