@@ -37,44 +37,64 @@ bool ModuleFBXLoader::CleanUp()
 }
 
 // -----------------------------------------------------------------
-void ModuleFBXLoader::LoadModel(const char* file_name)
+bool ModuleFBXLoader::LoadFBX(const char* file_name)
 {
-	aiMesh* new_mesh = nullptr;
-	ModelConfig model;
+	bool ret = true;
 	const aiScene* scene = aiImportFile(file_name, aiProcessPreset_TargetRealtime_MaxQuality);
 
 	if (scene != nullptr && scene->HasMeshes())
 	{
-		for (int i = 0; i <= scene->mNumMeshes; ++i)
+		aiNode* rootNode = scene->mRootNode;
+
+		for (int i = 0; i < rootNode->mNumChildren; ++i)
 		{
-			// TODO: cycle through the array of meshes
+			LoadModel(scene, rootNode->mChildren[i], file_name);
 		}
+
 		aiReleaseImport(scene);
+		return ret;
 	}
 	else
-		LOG("Error loading scene %s", file_name);
+		return false;
+}
 
-	model.num_vertices = new_mesh->mNumVertices;
-	model.vertices = new float[model.num_vertices * 3];
-	memcpy(model.vertices, new_mesh->mVertices, sizeof(float) * model.num_vertices * 3);
-	LOG("New mesh with %d vertices", model.num_vertices);
-
-	if (new_mesh->HasFaces())
+// -----------------------------------------------------------------
+void ModuleFBXLoader::LoadModel(const aiScene* scene, aiNode* node, const char* path)
+{
+	if (node->mNumMeshes <= 0)
 	{
-		model.num_indices = new_mesh->mNumFaces * 3;
-		model.indices = new uint[model.num_indices];
-
-		for (uint i = 0; i < new_mesh->mNumFaces; ++i)
+		LOG("MESH NOT FOUND! =================");
+	}
+	else
+	{
+		for (int i = 0; i < node->mNumMeshes; i++)
 		{
-			if (new_mesh->mFaces[i].mNumIndices != 3)
+			aiMesh* new_mesh = scene->mMeshes[node->mMeshes[i]];
+			ModelConfig mesh = ModelConfig();
+			mesh.num_vertices = new_mesh->mNumVertices;
+			mesh.vertices = new uint[mesh.num_vertices * 3];
+			memcpy(mesh.vertices, new_mesh->mVertices, sizeof(float) * mesh.num_vertices * 3);
+
+			if (new_mesh->HasFaces())
 			{
-				LOG("WARNING, geometry face with != 3 inidces!");
+				mesh.num_indices = new_mesh->mNumFaces * 3;
+				mesh.indices = new uint[mesh.num_indices];
+				for (uint j = 0; j < new_mesh->mNumFaces; j++)
+				{
+					if (new_mesh->mFaces[j].mNumIndices == 3)
+					{
+						memcpy(&mesh.indices[j * 3], new_mesh->mFaces[j].mIndices, 3 * sizeof(uint));
+					}
+				}
 			}
-			else
-			{
-				memcpy(&model.indices[i * 3], new_mesh->mFaces[i].mIndices, 3 * sizeof(uint));
-			}
+
+			meshes.push_back(mesh);
 		}
+	}
+
+	for (int i = 0; i < node->mNumChildren; i++)
+	{
+		LoadModel(scene, node->mChildren[i], path);
 	}
 }
 

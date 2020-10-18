@@ -2,7 +2,12 @@
 #define __MODULEFBXLOADER_H__
 
 #include "Module.h"
+#include <vector>
 
+using namespace std;
+
+class aiScene;
+class aiNode;
 
 struct ModelConfig
 {
@@ -12,7 +17,7 @@ struct ModelConfig
 
 	uint id_vertices = 0;
 	uint num_vertices = 0;
-	float* vertices = nullptr;
+	uint* vertices = nullptr;
 };
 
 class ModuleFBXLoader : public Module
@@ -24,7 +29,13 @@ public:
 	bool Start();
 	update_status Update(float dt);
 	bool CleanUp();
+	bool LoadFBX(const char* file_name);
+	void LoadModel(const aiScene* scene, aiNode* node, const char* path);
 
-	void LoadModel(const char* file_name);
+public:
+	vector<ModelConfig> meshes;
+
+private: 
+	ModelConfig data;
 };
 #endif
